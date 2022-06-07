@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Timers;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,14 @@ namespace Assets
             }
         }
 
+        private void Update()
+        {
+            if (Player.transform.position.y < -1)
+            {
+                Reset();
+            }
+        }
+
         private void Awake()
         {
             _pickups = new List<GameObject>();
@@ -31,6 +40,11 @@ namespace Assets
             var shrinks = GameObject.FindGameObjectsWithTag("PickupShrink");
             _pickups.AddRange(grows);
             _pickups.AddRange(shrinks);
+        }
+
+        private void Start()
+        {
+            UpdateScore();
         }
         
         public void PickupFound(bool grow)
@@ -47,7 +61,7 @@ namespace Assets
             WinText.gameObject.SetActive(false);
             Score = 0;
             UpdateScore();
-            Player.transform.position = new Vector3(0.0f, 0.5f, 0.0f);
+            Player.transform.position = new Vector3(0.0f, 1f, 0.0f);
             Player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
